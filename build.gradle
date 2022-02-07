@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'lq2007.plugins.gradle_plugin.source_gradle_plugin'
+}
+
+group 'lq2007.plugins'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    compileOnly 'com.github.luiqn2007:UselessPluginLib:1.0.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+modSourceGenerator {
+    log = file("/gen_log.txt")
+    classpaths = []
+    output = file("/build/gen_task/classes/")
+}

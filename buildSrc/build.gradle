@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.20.0"
+    }
+}
+
+plugins {
+    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish" version "0.20.0"
+}
+
+// sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+version = "1.0.0"
+group = "lq2007.plugins.gradle_plugin"
+
+gradlePlugin {
+    plugins {
+        myPlugins {
+            id = 'lq2007.plugins.gradle_plugin.source_gradle_plugin'
+            implementationClass = 'lq2007.plugins.gradle_plugin.PluginMain'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    gradleApi()
+
+    implementation 'com.github.luiqn2007:UselessPluginLib:1.0.2'
+
+    // https://mvnrepository.com/artifact/org.javassist/javassist
+    implementation("org.javassist:javassist:3.28.0-GA")
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation("com.google.guava:guava:31.0.1-jre")
+}
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+pluginBundle {
+    website = ""
+}
