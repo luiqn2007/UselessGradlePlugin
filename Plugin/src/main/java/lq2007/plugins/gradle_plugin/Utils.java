@@ -18,11 +18,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Utils
+ */
 public class Utils {
 
-    public static Path srcPath, resPath, projectPath;
-
-    public static Path logPath, classesPath;
+    /**
+     * some paths
+     */
+    public static Path srcPath, resPath, projectPath, logPath, classesPath;
 
     public static void initialize(GeneratorExtension ext, Task task) throws IOException {
         projectPath = task.getProject().getRootDir().toPath();

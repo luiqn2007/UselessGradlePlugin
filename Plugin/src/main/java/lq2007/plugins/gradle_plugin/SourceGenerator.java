@@ -17,7 +17,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ModSourceGenerator extends DefaultTask {
+/**
+ * Task: run genModSourceTask or build
+ */
+public class SourceGenerator extends DefaultTask {
 
     @TaskAction
     public void main() {

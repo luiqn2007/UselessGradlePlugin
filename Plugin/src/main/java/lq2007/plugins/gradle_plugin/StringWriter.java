@@ -2,6 +2,9 @@ package lq2007.plugins.gradle_plugin;
 
 import java.io.*;
 
+/**
+ * A util to build string
+ */
 public class StringWriter extends Writer {
 
     private StringBuilder sb = new StringBuilder();
