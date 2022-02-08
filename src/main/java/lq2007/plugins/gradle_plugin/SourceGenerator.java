@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -37,21 +38,30 @@ public class SourceGenerator extends DefaultTask {
             System.out.println("  ClassPaths=" + ext.classpaths);
             System.out.println("  LogFile=" + Utils.logPath);
 
-            List<ISourcePlugin> plugins = Utils.compileClasses(ext.classpaths).stream()
-                    .filter(ISourcePlugin.class::isAssignableFrom)
-                    .filter(c -> !c.isInterface() && !c.isEnum() && !Modifier.isAbstract(c.getModifiers()))
-                    .map(c -> {
-                        try {
-                            return (ISourcePlugin) c.getConstructor().newInstance();
-                        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                            e.printStackTrace();
-                            return null;
+            List<ISourcePlugin> plugins = new ArrayList<>();
+            List<Class<?>> result = Utils.compileClasses(ext.classpaths);
+            System.out.println("  CompiledFile=" + result.size());
+            for (Class<?> c : result) {
+                if (ISourcePlugin.class.isAssignableFrom(c)) {
+                    if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
+                        System.out.println("    " + c.getSimpleName() + " [×: interface or abstruct]");
+                    } else if (c.isEnum()) {
+                        for (Object constant : c.getEnumConstants()) {
+                            System.out.println("    " + c.getSimpleName() + ": " + constant);
+                            plugins.add((ISourcePlugin) constant);
                         }
-                    })
-                    .filter(Objects::nonNull)
-                    .toList();
-            System.out.println("  Plugins=" + plugins.size());
-            plugins.forEach(p -> System.out.println("    " + p.getClass().getSimpleName() + "=" + p));
+                    } else {
+                        try {
+                            Object o = c.getConstructor().newInstance();
+                            System.out.println("    " + c.getSimpleName() + ": " + o);
+                            plugins.add((ISourcePlugin) o);
+                        } catch (Exception e) {
+                            System.out.println("    " + c.getSimpleName() + " [×: " + e.getMessage() + "]");
+                            Utils.log(e);
+                        }
+                    }
+                }
+            }
             System.out.println();
 
             List<Entry> entries = plugins.stream()
