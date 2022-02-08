@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.invoke.MethodHandles;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -50,7 +52,8 @@ public class Utils {
         Files.createDirectories(classesPath);
     }
 
-    static List<Class<?>> compileClasses(Iterable<File> classpaths) throws IOException, URISyntaxException, IllegalAccessException {
+    static List<Class<?>> compileClasses(Iterable<File> classpaths)
+            throws IOException, URISyntaxException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         List<String> classes = Files.walk(srcPath.resolve("lq2007/plugins/gradle_plugin"), 1)
                 .filter(Files::isRegularFile)
                 .map(p -> p.getFileName().toString())
@@ -104,6 +107,11 @@ public class Utils {
                     }
                 });
 
+        URLClassLoader loader = (URLClassLoader) Utils.class.getClassLoader();
+        Method addURL = loader.getClass().getDeclaredMethod("addURL", URL.class);
+        addURL.setAccessible(true);
+        addURL.invoke(loader, classesPath.toFile().toURI().toURL());
+
         if (!listener.getDiagnostics().isEmpty()) {
             for (Diagnostic<? extends JavaFileObject> diagnostic : listener.getDiagnostics()) {
                 log(diagnostic.getKind() + diagnostic.getMessage(Locale.ENGLISH));
@@ -114,7 +122,7 @@ public class Utils {
         List<Class<?>> c = new ArrayList<>();
         for (String s : classes) {
             try {
-                c.add(lookup.findClass(s));
+                c.add(loader.loadClass(s));
             } catch (ClassNotFoundException e) {
                 Utils.log(e);
             }
