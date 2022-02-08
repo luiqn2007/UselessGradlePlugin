@@ -45,7 +45,7 @@ public class SourceGenerator extends DefaultTask {
             for (Class<?> c : result) {
                 if (ISourcePlugin.class.isAssignableFrom(c)) {
                     if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
-                        System.out.println("    " + c.getSimpleName() + " [×: interface or abstruct]");
+                        System.out.println("    " + c.getSimpleName() + " [interface or abstract]");
                     } else if (c.isEnum()) {
                         for (Object constant : c.getEnumConstants()) {
                             System.out.println("    " + c.getSimpleName() + ": " + constant);
@@ -57,7 +57,7 @@ public class SourceGenerator extends DefaultTask {
                             System.out.println("    " + c.getSimpleName() + ": " + o);
                             plugins.add((ISourcePlugin) o);
                         } catch (Exception e) {
-                            System.out.println("    " + c.getSimpleName() + " [×: " + e.getMessage() + "]");
+                            System.out.println("    " + c.getSimpleName() + " [" + e.getMessage() + "]");
                             Utils.log(e);
                         }
                     }

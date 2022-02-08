@@ -94,19 +94,6 @@ public class Utils {
         task.call();
         MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-        Files.walk(classesPath)
-                .filter(Files::isRegularFile)
-                .filter(f -> f.getFileName().toString().endsWith(".class"))
-                .sorted()
-                .forEach(f -> {
-                    try {
-                        byte[] bytes = Files.readAllBytes(f);
-                        lookup.defineClass(bytes);
-                    } catch (IOException | IllegalAccessException e) {
-                        Utils.log(e);
-                    }
-                });
-
         URLClassLoader loader = (URLClassLoader) Utils.class.getClassLoader();
         Method addURL = loader.getClass().getDeclaredMethod("addURL", URL.class);
         addURL.setAccessible(true);
