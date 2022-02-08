@@ -1,9 +1,9 @@
 plugins {
     id 'java'
-    id 'lq2007.plugins.gradle_plugin.source_gradle_plugin'
+    // id 'io.github.luiqn2007.gradle_plugins.build_tasks'
 }
 
-version = "1.0.0"
+version = "1.1.1"
 group = "lq2007.plugins.gradle_plugin"
 
 repositories {
@@ -12,15 +12,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.github.luiqn2007:UselessPluginLib:1.0.2'
+    compileOnly 'com.github.luiqn2007:UselessPluginLib:1.1.0'
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-modSourceGenerator {
-    log = file("/gen_log.txt")
-    classpaths = []
-    output = file("/build/gen_task/classes/")
-}
+//sourceTasks {
+//    log = file("/gen_log.txt")
+//    classpaths = []
+//    output = file("/build/gen_task/classes/")
+//}

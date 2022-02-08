@@ -23,12 +23,9 @@ import java.util.stream.Stream;
  */
 public class Utils {
 
-    /**
-     * some paths
-     */
-    public static Path srcPath, resPath, projectPath, logPath, classesPath;
+    static Path srcPath, resPath, projectPath, logPath, classesPath;
 
-    public static void initialize(GeneratorExtension ext, Task task) throws IOException {
+    static void initialize(GeneratorExtension ext, Task task) throws IOException {
         projectPath = task.getProject().getRootDir().toPath();
         srcPath = projectPath.resolve("src/main/java");
         resPath = projectPath.resolve("src/main/resources/assets");
@@ -53,7 +50,7 @@ public class Utils {
         Files.createDirectories(classesPath);
     }
 
-    public static List<Class<?>> compileClasses(Iterable<File> classpaths) throws IOException, URISyntaxException, IllegalAccessException {
+    static List<Class<?>> compileClasses(Iterable<File> classpaths) throws IOException, URISyntaxException, IllegalAccessException {
         List<String> classes = Files.walk(srcPath.resolve("lq2007/plugins/gradle_plugin"), 1)
                 .filter(Files::isRegularFile)
                 .map(p -> p.getFileName().toString())
@@ -125,7 +122,7 @@ public class Utils {
         return Collections.unmodifiableList(c);
     }
 
-    public static void log(String message) {
+    static void log(String message) {
         try {
             Files.writeString(logPath, message + "\n", StandardOpenOption.APPEND);
         } catch (IOException e) {
@@ -133,13 +130,13 @@ public class Utils {
         }
     }
 
-    public static void log(Exception e) {
+    static void log(Exception e) {
         StringWriter writer = new StringWriter();
         e.printStackTrace(new PrintWriter(writer));
         log(writer.toString());
     }
 
-    public static void deleteDir(Path path) throws IOException {
+    static void deleteDir(Path path) throws IOException {
         if (Files.isDirectory(path)) {
             Files.walk(path, 1).forEach(p -> {
                 try {

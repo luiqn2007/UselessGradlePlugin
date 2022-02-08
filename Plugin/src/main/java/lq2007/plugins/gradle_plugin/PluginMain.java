@@ -10,8 +10,8 @@ public class PluginMain implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        project.getExtensions().create("modSourceGenerator", GeneratorExtension.class);
-        project.getTasks().register("genModSourceTask", SourceGenerator.class);
-        project.getTasks().getByName("compileJava").dependsOn("genModSourceTask");
+        project.getExtensions().create("sourceTasks", GeneratorExtension.class);
+        project.getTasks().register("runSourceTask", SourceGenerator.class);
+        project.getTasks().getByName("compileJava").dependsOn("runSourceTask");
     }
 }

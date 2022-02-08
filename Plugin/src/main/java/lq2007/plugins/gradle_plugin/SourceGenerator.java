@@ -1,9 +1,6 @@
 package lq2007.plugins.gradle_plugin;
 
-import lq2007.plugins.gradle_plugin.support.ISourcePlugin;
-import lq2007.plugins.gradle_plugin.support.PluginContext;
-import lq2007.plugins.gradle_plugin.support.PluginExceptions;
-import lq2007.plugins.gradle_plugin.support.PluginHelper;
+import lq2007.plugins.gradle_plugin.support.*;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
@@ -22,6 +19,9 @@ import java.util.stream.Collectors;
  */
 public class SourceGenerator extends DefaultTask {
 
+    /**
+     * Run tasks like annotations
+     */
     @TaskAction
     public void main() {
         GeneratorExtension ext = (GeneratorExtension) getProject().getExtensions().getByName("modSourceGenerator");
@@ -29,7 +29,7 @@ public class SourceGenerator extends DefaultTask {
             Utils.initialize(ext, this);
             PluginHelper helper = new PluginHelper(Utils.srcPath, Utils.resPath, Utils.projectPath, Utils.logPath, Utils.classesPath);
 
-            System.out.println("ModSourceGenerator");
+            System.out.println("Tasks");
             System.out.println("  Project=" + Utils.projectPath);
             System.out.println("  Src=" + Utils.srcPath);
             System.out.println("  Assets=" + Utils.resPath);
@@ -66,7 +66,11 @@ public class SourceGenerator extends DefaultTask {
                     Path root = context.root();
                     ISourcePlugin plugin = next.plugin;
 
-                    plugin.begin(context, helper);
+                    try {
+                        plugin.begin(context, helper);
+                    } catch (Exception e) {
+                        context.exceptions().setExceptionAtBegin(e);
+                    }
 
                     if (Files.isRegularFile(root)) {
                         handleFile(root, plugin, context, helper);
@@ -78,9 +82,15 @@ public class SourceGenerator extends DefaultTask {
                         context.exceptions().put(root, new IOException("File not found: " + root));
                     }
 
-                    switch (plugin.finished(context, helper)) {
-                        case FINISHED -> iterator.remove();
-                        case STOP_ALL -> stopAll = true;
+
+                    try {
+                        switch (plugin.finished(context, helper)) {
+                            case FINISHED -> iterator.remove();
+                            case STOP_ALL -> stopAll = true;
+                        }
+                    } catch (Exception e) {
+                        iterator.remove();
+                        Utils.log(e);
                     }
 
                     if (stopAll) {
