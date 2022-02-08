@@ -35,7 +35,7 @@ public class SourceGenerator extends DefaultTask {
             System.out.println("  Project=" + Utils.projectPath);
             System.out.println("  Src=" + Utils.srcPath);
             System.out.println("  Assets=" + Utils.resPath);
-            System.out.println("  Output=" + ext.output);
+            System.out.println("  Output=" + Utils.classesPath);
             System.out.println("  ClassPaths=" + ext.classpaths);
             System.out.println("  LogFile=" + Utils.logPath);
 
