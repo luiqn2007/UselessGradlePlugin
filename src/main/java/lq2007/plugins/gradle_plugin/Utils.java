@@ -94,6 +94,7 @@ public class Utils {
         Files.walk(classesPath)
                 .filter(Files::isRegularFile)
                 .filter(f -> f.getFileName().toString().endsWith(".class"))
+                .sorted()
                 .forEach(f -> {
                     try {
                         byte[] bytes = Files.readAllBytes(f);

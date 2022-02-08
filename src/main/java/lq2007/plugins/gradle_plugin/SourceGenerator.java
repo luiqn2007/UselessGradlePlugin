@@ -1,18 +1,19 @@
 package lq2007.plugins.gradle_plugin;
 
-import lq2007.plugins.gradle_plugin.support.*;
+import lq2007.plugins.gradle_plugin.support.ISourcePlugin;
+import lq2007.plugins.gradle_plugin.support.PluginContext;
+import lq2007.plugins.gradle_plugin.support.PluginExceptions;
+import lq2007.plugins.gradle_plugin.support.PluginHelper;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
