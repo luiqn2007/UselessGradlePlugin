@@ -24,7 +24,7 @@ public class SourceGenerator extends DefaultTask {
      */
     @TaskAction
     public void main() {
-        GeneratorExtension ext = (GeneratorExtension) getProject().getExtensions().getByName("runSourceTask");
+        GeneratorExtension ext = (GeneratorExtension) getProject().getExtensions().getByName("sourceTasks");
         try {
             Utils.initialize(ext, this);
             PluginHelper helper = new PluginHelper(Utils.srcPath, Utils.resPath, Utils.projectPath, Utils.logPath, Utils.classesPath);
