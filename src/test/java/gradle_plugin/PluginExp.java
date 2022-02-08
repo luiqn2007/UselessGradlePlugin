@@ -1,4 +1,4 @@
-package lq2007.plugins.gradle_plugin;
+package gradle_plugin;
 
 import lq2007.plugins.gradle_plugin.support.EnumLoopResult;
 import lq2007.plugins.gradle_plugin.support.ISourcePlugin;

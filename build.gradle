@@ -1,10 +1,24 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.20.0"
+    }
+}
+
 plugins {
-    id 'java'
-    // id 'io.github.luiqn2007.gradle_plugins.build_tasks'
+    id 'java-gradle-plugin'
+    id "com.gradle.plugin-publish" version "0.20.0"
+    id 'maven-publish'
 }
 
 version = "1.1.1"
-group = "lq2007.plugins.gradle_plugin"
+group = "io.github.luiqn2007.gradle_plugins"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
     mavenCentral()
@@ -12,15 +26,62 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.github.luiqn2007:UselessPluginLib:1.1.0'
+    gradleApi()
+
+    implementation 'com.github.luiqn2007:UselessPluginLib:1.1.0'
+
+    // https://mvnrepository.com/artifact/org.javassist/javassist
+    implementation("org.javassist:javassist:3.28.0-GA")
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation("com.google.guava:guava:31.0.1-jre")
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-//sourceTasks {
-//    log = file("/gen_log.txt")
-//    classpaths = []
-//    output = file("/build/gen_task/classes/")
-//}
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+gradlePlugin {
+    plugins {
+        build_tasks {
+            id = 'io.github.luiqn2007.gradle_plugins.build_tasks'
+            implementationClass = 'lq2007.plugins.gradle_plugin.PluginMain'
+        }
+    }
+}
+
+pluginBundle {
+    // These settings are set for the whole plugin bundle
+    website = 'https://github.com/luiqn2007/UselessGradlePlugin'
+    vcsUrl = 'https://github.com/luiqn2007/UselessGradlePlugin'
+
+    // tags and description can be set for the whole bundle here, but can also
+    // be set / overridden in the config for specific plugins
+    description = 'Running some tasks before building, you can create tasks in your projects with java and run' +
+            ' before compileJava task, or execute "runSourceTask" task. ' +
+            'To use this plugin, you need add compileOnly dependency "com.github.luiqn2007:UselessPluginLib", and' +
+            ' create task class in `lq2007.plugins.gradle_plugin` package in your source, ' +
+            'implement lq2007.plugins.gradle_plugin.support.ISourcePlugin interface. You can create or edit source by javaparser.\n' +
+            '*** plugin version m.n.a must use lib m.n.b ***'
+
+    // The plugins block can contain multiple plugin entries. The name for
+    // each plugin block below (greetingsPlugin, goodbyePlugin)does not
+    // affect the plugin configuration, but they need to be unique for each plugin.
+
+    // Plugin config blocks can set the displayName, description and tags for
+    // each plugin. displayName is mandatory. If no tags or description are set
+    // the tags or description from the pluginBundle block will be used,
+    // but they must be set in one of the two places.
+
+    plugins {
+        build_tasks {
+            // id is captured from java-gradle-plugin configuration
+            displayName = 'build_tasks'
+            tags = ['java', 'code-generation']
+        }
+    }
+}
