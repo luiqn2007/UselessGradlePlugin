@@ -11,10 +11,12 @@ How to use:
     ```groovy
 
     plugins {
-        id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.1.7"
+        id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.1.8.1"
     }
     
     ```
+
+    version 1.1.8.1 is same as 1.1.8
 
  2. Add lib to project
 

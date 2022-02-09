@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ClassPathLoader implements FileVisitor<Path> {
+class ClassPathLoader implements FileVisitor<Path> {
     private final List<Class<?>> result = new ArrayList<>();
 
     private final LinkedList<String> packageList = new LinkedList<>();
