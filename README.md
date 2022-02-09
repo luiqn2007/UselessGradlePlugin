@@ -1,5 +1,7 @@
 # UselessGradlePlugin
 
+Plugin: [![](https://jitpack.io/v/luiqn2007/UselessGradlePlugin.svg)](https://jitpack.io/#luiqn2007/UselessGradlePlugin)
+
 Lib: [![](https://jitpack.io/v/luiqn2007/UselessPluginLib.svg)](https://jitpack.io/#luiqn2007/UselessPluginLib)
 
 How to use: 

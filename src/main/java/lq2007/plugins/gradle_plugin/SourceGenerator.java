@@ -45,10 +45,8 @@ public class SourceGenerator extends DefaultTask {
             List<Class<?>> result = Utils.compileClasses(ext.classpaths);
             System.out.println("  CompiledFile=" + result.size());
             for (Class<?> c : result) {
-                if (ISourcePlugin.class.isAssignableFrom(c)) {
-                    if (c.isInterface() || Modifier.isAbstract(c.getModifiers())) {
-                        System.out.println("    " + c.getSimpleName() + " [interface or abstract]");
-                    } else if (c.isEnum()) {
+                if (ISourcePlugin.class.isAssignableFrom(c) && !c.isInterface() && !Modifier.isAbstract(c.getModifiers())) {
+                    if (c.isEnum()) {
                         for (Object constant : c.getEnumConstants()) {
                             System.out.println("    " + c.getSimpleName() + ": " + constant);
                             plugins.add((ISourcePlugin) constant);

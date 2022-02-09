@@ -15,7 +15,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = "1.1.7.4-debug"
+version = "1.1.8"
 group = "io.github.luiqn2007.gradle_plugins"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -64,9 +64,8 @@ pluginBundle {
     description = 'Running some tasks before building, you can create tasks in your projects with java and run' +
             ' before compileJava task, or execute "runSourceTask" task. ' +
             'To use this plugin, you need add compileOnly dependency "com.github.luiqn2007:UselessPluginLib", and' +
-            ' create task class in `lq2007.plugins.gradle_plugin` package in your source, ' +
-            'implement lq2007.plugins.gradle_plugin.support.ISourcePlugin interface. You can create or edit source by javaparser.\n' +
-            '*** plugin version m.n.a must use lib m.n.b ***'
+            ' create task class implement lq2007.plugins.gradle_plugin.support.ISourcePlugin interface. ' +
+            'You can create or edit source by javaparser. More detail please see github.\n'
 
     // The plugins block can contain multiple plugin entries. The name for
     // each plugin block below (greetingsPlugin, goodbyePlugin)does not
