@@ -115,6 +115,12 @@ public class SourceGenerator extends DefaultTask {
         } catch (Exception e) {
             getProject().getLogger().error(e.getMessage());
             Utils.log(e);
+        } finally {
+            try {
+                Utils.deleteDir(Utils.classesPath);
+            } catch (IOException e) {
+                Utils.log(e);
+            }
         }
     }
 
