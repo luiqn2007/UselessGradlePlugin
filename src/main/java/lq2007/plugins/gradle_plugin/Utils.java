@@ -61,9 +61,12 @@ public class Utils {
 
     static List<Class<?>> compileClasses(Iterable<File> classpaths)
             throws IOException, URISyntaxException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        List<File> sources = Files.walk(srcPath.resolve(packageName.replace(".", "/")))
+        Path resolve = srcPath.resolve(packageName.replace(".", "/"));
+        System.out.println(resolve);
+        List<File> sources = Files.walk(resolve)
                 .filter(Files::isRegularFile)
                 .filter(p -> p.getFileName().toString().endsWith(".java"))
+                .peek(System.out::println)
                 .map(Path::toFile)
                 .toList();
         List<File> classpath = Stream.concat(Arrays.stream(System.getProperty("java.library.path").split(";")),
@@ -88,7 +91,6 @@ public class Utils {
         Iterable<? extends JavaFileObject> units = fileManager.getJavaFileObjectsFromFiles(sources);
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, listener, null, null, units);
         task.call();
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
 
         URLClassLoader loader = (URLClassLoader) Utils.class.getClassLoader();
         Method addURL = loader.getClass().getDeclaredMethod("addURL", URL.class);
