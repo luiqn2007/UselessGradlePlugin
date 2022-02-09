@@ -61,12 +61,9 @@ public class Utils {
 
     static List<Class<?>> compileClasses(Iterable<File> classpaths)
             throws IOException, URISyntaxException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        Path resolve = srcPath.resolve(packageName.replace(".", "/"));
-        System.out.println(resolve);
-        List<File> sources = Files.walk(resolve)
+        List<File> sources = Files.walk(srcPath.resolve(packageName.replace(".", "/")))
                 .filter(Files::isRegularFile)
                 .filter(p -> p.getFileName().toString().endsWith(".java"))
-                .peek(System.out::println)
                 .map(Path::toFile)
                 .toList();
         List<File> classpath = Stream.concat(Arrays.stream(System.getProperty("java.library.path").split(";")),
@@ -104,6 +101,7 @@ public class Utils {
             }
         }
 
+        System.out.println(classesPath);
         ClassPathLoader visitor = new ClassPathLoader();
         Files.walkFileTree(classesPath, visitor);
         return visitor.getResult();

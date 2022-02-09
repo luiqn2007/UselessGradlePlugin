@@ -17,16 +17,19 @@ public class ClassPathLoader implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+        System.out.println("Pre: " + packageList + " -> " + dir);
         String s = dir.getFileName().toString();
         if (!s.isEmpty()) {
             packageList.add(s);
             currentPackage = String.join(".", packageList);
         }
+        System.out.println("Pre: " + packageList + " <- " + dir);
         return FileVisitResult.CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+        System.out.println("Visit: " + packageList + " -> " + file);
         String s = file.getFileName().toString();
         if (s.endsWith(".class")) {
             tryLoad(s.substring(0, s.length() - 6));
@@ -42,16 +45,19 @@ public class ClassPathLoader implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+        System.out.println("Post: " + packageList + " -> " + dir);
         String s = dir.getFileName().toString();
         if (!s.isEmpty() && !packageList.isEmpty()) {
             packageList.removeLast();
             currentPackage = String.join(".", packageList);
         }
+        System.out.println("Post: " + packageList + " <- " + dir);
         return FileVisitResult.CONTINUE;
     }
 
     private void tryLoad(String name) {
         try {
+            System.out.println("  try load " + currentPackage + "." + name);
             result.add(getClass().getClassLoader().loadClass(currentPackage + "." + name));
         } catch (ClassNotFoundException e) {
             Utils.log(e);
