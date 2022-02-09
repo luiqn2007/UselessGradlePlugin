@@ -16,7 +16,7 @@ How to use:
         }
 
         dependencies {
-            classpath 'com.github.luiqn2007:UselessGradlePlugin:1.1.5'
+            classpath 'com.github.luiqn2007:UselessGradlePlugin:1.1.6'
         }
     }
     
