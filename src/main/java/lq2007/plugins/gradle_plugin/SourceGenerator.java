@@ -36,6 +36,7 @@ public class SourceGenerator extends DefaultTask {
             System.out.println("  Src=" + Utils.srcPath);
             System.out.println("  Assets=" + Utils.resPath);
             System.out.println("  Output=" + Utils.classesPath);
+            System.out.println("  Clean=" + ext.cleanCompiledFiles);
             System.out.println("  ClassPaths=" + ext.classpaths);
             System.out.println("  Package=" + Utils.packageName);
             System.out.println("  LogFile=" + Utils.logPath);
@@ -117,10 +118,12 @@ public class SourceGenerator extends DefaultTask {
             getProject().getLogger().error(e.getMessage());
             Utils.log(e);
         } finally {
-            try {
-                Utils.deleteDir(Utils.classesPath);
-            } catch (IOException e) {
-                Utils.log(e);
+            if (ext.cleanCompiledFiles) {
+                try {
+                    Utils.deleteDir(Utils.classesPath);
+                } catch (IOException e) {
+                    Utils.log(e);
+                }
             }
         }
     }

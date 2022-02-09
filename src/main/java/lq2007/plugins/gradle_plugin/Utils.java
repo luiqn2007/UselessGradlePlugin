@@ -6,7 +6,6 @@ import javax.tools.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.invoke.MethodHandles;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
@@ -40,7 +39,7 @@ public class Utils {
         }
         if (logPath == null) {
             if (ext.log == null) {
-                logPath = resPath.resolve("gen/log.txt");
+                logPath = srcPath.resolve("gen/log.txt");
             } else if (ext.log.isDirectory()) {
                 logPath = ext.log.toPath().resolve("log.txt");
             } else {
@@ -102,7 +101,7 @@ public class Utils {
         }
 
         System.out.println(classesPath);
-        ClassPathLoader visitor = new ClassPathLoader();
+        ClassPathLoader visitor = new ClassPathLoader(packageName.split("\\.")[0]);
         Files.walkFileTree(classesPath, visitor);
         return visitor.getResult();
     }

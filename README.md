@@ -31,6 +31,17 @@ How to use:
     ```
      
  3. Create source and implement `lq2007.plugins.gradle_plugin.support.ISourcePlugin`, you should put all classes to one package,
-and declare at 
+and declare at `sourceTasks` block.
+
+`sourceTasks`
+
+|     parameter      |         value_type         |         default_value          | description                                              |
+|:------------------:|:--------------------------:|:------------------------------:|----------------------------------------------------------|
+|     classpaths     |      `Iterable<File>`      |              `[]`              | file in this list will become classpachs while compiling |
+|       output       |     `File`(dictionary)     |   `/build/gen_task/classes`    | dictionary to save the compiled file                     |
+|        log         | `File`(file or dictionary) |         `gen/log.txt`          | file to save log                                         |
+|    packageName     |          `String`          | `lq2007.plugins.gradle_plugin` | task source class package                                |
+| cleanCompiledFiles |         `boolean`          |             `true`             | true if delete compiled file while finished              |
+
 
 **Plugin version a.b.x must use lib version a.b.y**
