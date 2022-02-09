@@ -16,7 +16,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,11 +28,16 @@ import java.util.stream.Stream;
 public class Utils {
 
     static Path srcPath, resPath, projectPath, logPath, classesPath;
+    static String packageName;
 
     static void initialize(GeneratorExtension ext, Task task) throws IOException {
         projectPath = task.getProject().getRootDir().toPath();
         srcPath = projectPath.resolve("src/main/java");
         resPath = projectPath.resolve("src/main/resources/assets");
+        packageName = ext.packageName;
+        if (packageName == null || packageName.isEmpty()) {
+            packageName = "lq2007.plugins.gradle_plugin";
+        }
         if (logPath == null) {
             if (ext.log == null) {
                 logPath = resPath.resolve("gen/log.txt");
@@ -54,20 +61,9 @@ public class Utils {
 
     static List<Class<?>> compileClasses(Iterable<File> classpaths)
             throws IOException, URISyntaxException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        List<String> classes = Files.walk(srcPath.resolve("lq2007/plugins/gradle_plugin"), 1)
+        List<File> sources = Files.walk(srcPath.resolve(packageName.replace(".", "/")))
                 .filter(Files::isRegularFile)
-                .map(p -> p.getFileName().toString())
-                .filter(p -> p.endsWith(".java"))
-                .map(p -> "lq2007.plugins.gradle_plugin." + p.substring(0, p.length() - 5))
-                .toList();
-
-        if (classes.isEmpty()) {
-            return List.of();
-        }
-
-        List<File> sources = classes.stream()
-                .map(s -> s.replace(".", "/") + ".java")
-                .map(srcPath::resolve)
+                .filter(p -> p.getFileName().toString().endsWith(".java"))
                 .map(Path::toFile)
                 .toList();
         List<File> classpath = Stream.concat(Arrays.stream(System.getProperty("java.library.path").split(";")),
@@ -106,16 +102,9 @@ public class Utils {
             }
         }
 
-        List<Class<?>> c = new ArrayList<>();
-        for (String s : classes) {
-            try {
-                c.add(loader.loadClass(s));
-            } catch (ClassNotFoundException e) {
-                Utils.log(e);
-            }
-        }
-
-        return Collections.unmodifiableList(c);
+        ClassPathLoader visitor = new ClassPathLoader();
+        Files.walkFileTree(classesPath, visitor);
+        return visitor.getResult();
     }
 
     static void log(String message) {

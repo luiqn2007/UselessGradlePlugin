@@ -37,6 +37,7 @@ public class SourceGenerator extends DefaultTask {
             System.out.println("  Assets=" + Utils.resPath);
             System.out.println("  Output=" + Utils.classesPath);
             System.out.println("  ClassPaths=" + ext.classpaths);
+            System.out.println("  Package=" + Utils.packageName);
             System.out.println("  LogFile=" + Utils.logPath);
 
             List<ISourcePlugin> plugins = new ArrayList<>();

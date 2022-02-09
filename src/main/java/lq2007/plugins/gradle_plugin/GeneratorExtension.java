@@ -22,4 +22,9 @@ public class GeneratorExtension {
      * log file
      */
     public File log;
+
+    /**
+     * custom plugin package
+     */
+    public String packageName = "lq2007.plugins.gradle_plugin";
 }
