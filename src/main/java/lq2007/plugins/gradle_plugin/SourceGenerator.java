@@ -131,8 +131,8 @@ public class SourceGenerator extends DefaultTask {
     private void initialize() throws IOException, NoSuchMethodException {
         // paths
         Path projectPath = getProject().getRootDir().getAbsoluteFile().toPath();
-        srcPath = projectPath.resolve("src/main/java");
-        Path resPath = projectPath.resolve("src/main/resources/assets");
+        srcPath = projectPath.resolve("src").resolve(ext.sourceSet).resolve("java");
+        Path resPath = projectPath.resolve("src").resolve(ext.sourceSet).resolve("resources/assets");
         packageName = ext.packageName;
         if (logPath == null) {
             if (ext.log == null) {

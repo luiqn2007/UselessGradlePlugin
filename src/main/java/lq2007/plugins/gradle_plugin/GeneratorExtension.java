@@ -9,22 +9,27 @@ import java.util.ArrayList;
 public class GeneratorExtension {
 
     /**
-     * classes output directory
+     * Classes output directory
      */
     public File output;
 
     /**
-     * log file
+     * Log file
      */
     public File log;
 
     /**
-     * custom plugin package
+     * Custom plugin package
      */
     public String packageName = "";
 
     /**
-     * true if clean compiled class files
+     * Set source set to find task package
+     */
+    public String sourceSet = "main";
+
+    /**
+     * True if clean compiled class files
      */
     public boolean cleanCompiledFiles = true;
 

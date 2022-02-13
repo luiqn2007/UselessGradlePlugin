@@ -17,7 +17,7 @@ How to use:
    }
    
    plugins {
-       id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.2.0"
+       id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.2.1"
    }
    
    ```
@@ -48,6 +48,7 @@ How to use:
 |       output       |     `File`(dictionary)     | `/build/gen_task/classes` | dictionary to save the compiled file        |
 |        log         | `File`(file or dictionary) |       `gen/log.txt`       | file to save log                            |
 |    packageName     |          `String`          |            ``             | task source class package                   |
+|     sourceSet      |          `String`          |         `"main"`          | sourceSet to find package                   |
 | cleanCompiledFiles |         `boolean`          |          `true`           | true if delete compiled file while finished |
 |      extTasks      |     `Iterable<String>`     |           `[]`            | add task class from dependency              |
 
