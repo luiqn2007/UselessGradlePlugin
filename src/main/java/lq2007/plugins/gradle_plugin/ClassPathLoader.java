@@ -18,8 +18,11 @@ class ClassPathLoader implements FileVisitor<Path> {
     private boolean begin = false;
     private final String beginPackage;
 
-    public ClassPathLoader(String beginPackage) {
+    private final SourceGenerator task;
+
+    public ClassPathLoader(SourceGenerator task, String beginPackage) {
         this.beginPackage = beginPackage;
+        this.task = task;
     }
 
     @Override
@@ -46,7 +49,7 @@ class ClassPathLoader implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exc) {
-        Utils.log(exc);
+        task.log(exc);
         return FileVisitResult.CONTINUE;
     }
 
@@ -64,7 +67,7 @@ class ClassPathLoader implements FileVisitor<Path> {
         try {
             result.add(getClass().getClassLoader().loadClass(currentPackage + "." + name));
         } catch (ClassNotFoundException e) {
-            Utils.log(e);
+            task.log(e);
         }
     }
 

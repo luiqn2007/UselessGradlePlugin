@@ -9,11 +9,6 @@ import java.util.ArrayList;
 public class GeneratorExtension {
 
     /**
-     * jars directory to depends while compiling
-     */
-    public Iterable<File> classpaths = new ArrayList<>();
-
-    /**
      * classes output directory
      */
     public File output;
@@ -26,10 +21,15 @@ public class GeneratorExtension {
     /**
      * custom plugin package
      */
-    public String packageName = "lq2007.plugins.gradle_plugin";
+    public String packageName = "";
 
     /**
      * true if clean compiled class files
      */
     public boolean cleanCompiledFiles = true;
+
+    /**
+     * Tasks existed in dependencies
+     */
+    public Iterable<String> extTasks = new ArrayList<>();
 }
