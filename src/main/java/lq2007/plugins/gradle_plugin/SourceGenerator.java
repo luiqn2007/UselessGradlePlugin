@@ -211,7 +211,7 @@ public class SourceGenerator extends DefaultTask {
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, listener, null, null, units);
         task.call();
 
-        addURL.invoke(classesPath, classesPath.toFile().toURI().toURL());
+        addURL.invoke(classLoader, classesPath.toFile().toURI().toURL());
 
         if (!listener.getDiagnostics().isEmpty()) {
             for (Diagnostic<? extends JavaFileObject> diagnostic : listener.getDiagnostics()) {
