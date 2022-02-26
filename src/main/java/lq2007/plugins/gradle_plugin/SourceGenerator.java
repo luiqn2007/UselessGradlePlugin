@@ -147,7 +147,7 @@ public class SourceGenerator extends DefaultTask {
             Files.createFile(logPath);
         }
         if (ext.output == null || !ext.output.isDirectory()) {
-            classesPath = projectPath.resolve("/build/gen_task/classes");
+            classesPath = projectPath.resolve("build/gen_task/classes");
         } else {
             classesPath = ext.output.toPath();
         }
