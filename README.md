@@ -17,7 +17,7 @@ How to use:
    }
    
    plugins {
-       id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.2.3"
+       id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.2.4"
    }
    
    ```
