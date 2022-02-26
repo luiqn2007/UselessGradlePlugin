@@ -16,7 +16,7 @@ plugins {
     id 'maven-publish'
 }
 
-version = "1.2.2"
+version = "1.2.3"
 group = "io.github.luiqn2007.gradle_plugins"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -29,7 +29,7 @@ repositories {
 dependencies {
     gradleApi()
 
-    implementation 'com.github.luiqn2007:UselessPluginLib:1.2.0'
+    implementation 'in.lq2007:UselessPluginLib:1.2.0'
 
     // https://mvnrepository.com/artifact/org.javassist/javassist
     implementation("org.javassist:javassist:3.28.0-GA")

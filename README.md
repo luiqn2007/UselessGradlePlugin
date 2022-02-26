@@ -17,7 +17,7 @@ How to use:
    }
    
    plugins {
-       id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.2.2"
+       id "io.github.luiqn2007.gradle_plugins.build_tasks" version "1.2.3"
    }
    
    ```
@@ -33,7 +33,7 @@ How to use:
    }
     
    dependencies {
-       compileOnly 'com.github.luiqn2007:UselessPluginLib:1.2.0'
+       compileOnly 'in.lq2007:UselessPluginLib:1.2.0'
    }
     
    ```
